@@ -1,0 +1,18 @@
+{
+    "timestamp": "2025-02-19T17:52:39.869872",
+    "category_analysis": {
+        "economy": {
+            "sentiment": {"mean": 0.123, "count": 45},
+            "interaction_score": 234.5
+        },
+        "technology": {
+            "sentiment": {"mean": 0.345, "count": 32},
+            "interaction_score": 189.2
+        },
+        "politics": {
+            "sentiment": {"mean": -0.089, "count": 28},
+            "interaction_score": 456.7
+        }
+    }
+}
+        

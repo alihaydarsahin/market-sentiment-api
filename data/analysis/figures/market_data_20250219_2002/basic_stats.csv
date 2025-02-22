@@ -1,0 +1,8 @@
+,dtype,non_null,null_count,unique_values,memory_usage
+Index,,,,,132
+change_pct,float64,120.0,0.0,120.0,960
+close,float64,120.0,0.0,120.0,960
+date,object,120.0,0.0,30.0,8040
+open,float64,120.0,0.0,120.0,960
+symbol,object,120.0,0.0,4.0,7350
+volume,int64,120.0,0.0,120.0,960

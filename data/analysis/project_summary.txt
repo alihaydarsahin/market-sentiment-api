@@ -1,0 +1,40 @@
+
+HABER ANALİZİ PROJESİ - ÖZET
+
+1. VERİ TOPLAMA
+   - News API'den güncel haberler
+   - Kategorilere göre sınıflandırma
+   - 9 farklı kategori (ekonomi, teknoloji, siyaset, spor, sağlık, eğitim, bilim, çevre, kültür-sanat)
+
+2. DUYGU ANALİZİ
+   - TextBlob ile başlık analizi
+   - Pozitif/negatif duygu skorlaması
+   - Kategori bazlı duygu dağılımları
+
+3. ETKİLEŞİM ANALİZİ
+   - Haberlerin popülerlik ölçümü
+   - Kategori bazlı etkileşim oranları
+   - En çok ilgi gören haberler
+
+4. GÖRSELLEŞTİRMELER
+   - Kategori dağılım grafikleri
+   - Duygu-etkileşim ilişki grafikleri
+   - En etkili haberlerin görselleştirilmesi
+
+5. RAPORLAMA
+   - JSON formatında detaylı rapor
+   - Otomatik grafik kaydetme
+   - Log dosyaları ile takip
+
+6. OPTİMİZASYONLAR
+   - Bellek dostu veri işleme
+   - Chunk'lar halinde analiz
+   - Hata yönetimi ve loglama
+
+GELİŞTİRME ÖNERİLERİ:
+1. Gerçek etkileşim verisi (sosyal medya API'leri)
+2. Daha detaylı metin analizi
+3. Zaman serisi analizleri
+4. Web arayüzü ekleme
+
+Tarih: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}

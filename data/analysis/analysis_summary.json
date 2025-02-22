@@ -1,0 +1,29 @@
+{
+    "timestamp": "2025-02-19T20:03:22.827955",
+    "analysis_period": {
+        "start": "2025-01-20",
+        "end": "2025-02-19"
+    },
+    "key_findings": {
+        "sentiment": {
+            "overall_sentiment": 0.3,
+            "trend_direction": "positive",
+            "confidence": 0.68
+        },
+        "top_trends": [
+            {
+                "topic": "AI",
+                "mentions": 907
+            },
+            {
+                "topic": "Crypto",
+                "mentions": 140
+            },
+            {
+                "topic": "Cloud",
+                "mentions": 485
+            }
+        ],
+        "market_correlation": -0.59
+    }
+}

@@ -1,0 +1,11 @@
+topics,count
+"['AI', 'Machine Learning']",6
+"['Data Science', 'AI']",5
+"['Data Science', 'Data Science']",4
+"['AI', 'Cloud']",4
+"['Machine Learning', 'Machine Learning']",3
+"['Data Science', 'Machine Learning']",3
+"['Cloud', 'Data Science']",3
+"['Machine Learning', 'AI']",2
+"['Cloud', 'Machine Learning']",2
+"['AI', 'Web Development']",2

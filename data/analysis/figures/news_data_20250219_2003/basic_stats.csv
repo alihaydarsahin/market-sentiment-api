@@ -1,0 +1,9 @@
+,dtype,non_null,null_count,unique_values,memory_usage
+Index,,,,,132
+description,object,100.0,0.0,5.0,9682
+publishedAt,object,100.0,0.0,84.0,8300
+sentiment_score,float64,100.0,0.0,100.0,800
+source,object,100.0,0.0,5.0,6423
+title,object,100.0,0.0,100.0,8872
+topic,object,100.0,0.0,5.0,6682
+url,object,100.0,0.0,100.0,9090

@@ -1,0 +1,25 @@
+
+HABER ANALİZİ PROJESİ - ÖZET
+
+1. VERİ TOPLAMA
+   - News API'den güncel haberler
+   - Kategorilere göre sınıflandırma
+   - 9 farklı kategori
+
+2. ANALİZ TÜRLERİ
+   - Duygu Analizi (TextBlob)
+   - Etkileşim Analizi
+   - Kategori Analizi
+   - Etki Analizi
+
+3. GÖRSELLEŞTİRMELER
+   - Kategori dağılımları
+   - Duygu-etkileşim ilişkileri
+   - En etkili haberler
+
+4. ÇIKTILAR
+   - JSON raporları
+   - Grafikler
+   - Log kayıtları
+
+Tarih: {datetime.now().strftime('%Y-%m-%d')}

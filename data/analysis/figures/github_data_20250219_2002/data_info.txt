@@ -1,0 +1,14 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 7 columns):
+ #   Column       Non-Null Count  Dtype 
+---  ------       --------------  ----- 
+ 0   repo_name    50 non-null     object
+ 1   stars        50 non-null     int64 
+ 2   forks        50 non-null     int64 
+ 3   language     50 non-null     object
+ 4   topics       50 non-null     object
+ 5   description  50 non-null     object
+ 6   created_at   50 non-null     object
+dtypes: int64(2), object(5)
+memory usage: 2.9+ KB

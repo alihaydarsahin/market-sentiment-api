@@ -1,0 +1,31 @@
+{
+    "timestamp": "2025-02-19T17:52:39.869872",
+    "analysis_results": {
+        "categories": {
+            "economy": {
+                "article_count": 45,
+                "sentiment": {
+                    "mean": 0.123,
+                    "std": 0.456
+                },
+                "top_keywords": ["market", "stocks", "economy"]
+            },
+            "technology": {
+                "article_count": 32,
+                "sentiment": {
+                    "mean": 0.345,
+                    "std": 0.234
+                },
+                "top_keywords": ["AI", "innovation", "digital"]
+            }
+        },
+        "overall_stats": {
+            "total_articles": 77,
+            "average_sentiment": 0.234,
+            "date_range": {
+                "start": "2025-02-12",
+                "end": "2025-02-19"
+            }
+        }
+    }
+}

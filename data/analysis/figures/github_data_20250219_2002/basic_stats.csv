@@ -1,0 +1,9 @@
+,dtype,non_null,null_count,unique_values,memory_usage
+Index,,,,,132
+created_at,object,50.0,0.0,47.0,4150
+description,object,50.0,0.0,50.0,4440
+forks,int64,50.0,0.0,48.0,400
+language,object,50.0,0.0,5.0,3176
+repo_name,object,50.0,0.0,50.0,3540
+stars,int64,50.0,0.0,50.0,400
+topics,object,50.0,0.0,22.0,4276

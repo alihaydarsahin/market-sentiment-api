@@ -1,0 +1,10 @@
+,dtype,non_null,null_count,unique_values,memory_usage
+Index,,,,,132
+author,object,93.0,5.0,84.0,7277
+content,object,98.0,0.0,89.0,66514
+description,object,97.0,1.0,94.0,36392
+publishedAt,object,98.0,0.0,83.0,7546
+source,object,98.0,0.0,57.0,9448
+title,object,98.0,0.0,95.0,17442
+url,object,98.0,0.0,98.0,15513
+urlToImage,object,89.0,9.0,85.0,15622

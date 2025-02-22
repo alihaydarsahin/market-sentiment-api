@@ -1,0 +1,10 @@
+,dtype,non_null,null_count,unique_values,memory_usage
+Index,,,,,132
+comments,int64,100.0,0.0,59.0,800
+created_utc,object,100.0,0.0,87.0,8300
+score,int64,100.0,0.0,92.0,800
+sentiment_polarity,float64,100.0,0.0,100.0,800
+sentiment_subjectivity,float64,100.0,0.0,100.0,800
+subreddit,object,100.0,0.0,4.0,6852
+title,object,100.0,0.0,100.0,7090
+url,object,100.0,0.0,100.0,9752

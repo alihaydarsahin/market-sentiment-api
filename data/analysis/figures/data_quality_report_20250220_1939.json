@@ -1,0 +1,45 @@
+{
+    "timestamp": "2025-02-20T19:39:11.764908",
+    "freshness": {
+        "reddit": {
+            "latest_file": null,
+            "days_old": null,
+            "is_fresh": false
+        },
+        "news": {
+            "latest_file": "scraped_news_20250217_180555.csv",
+            "days_old": 3,
+            "is_fresh": false
+        },
+        "market": {
+            "latest_file": null,
+            "days_old": null,
+            "is_fresh": false
+        }
+    },
+    "sentiment_stats": {
+        "reddit_sentiment": {
+            "mean": null,
+            "std": null,
+            "missing": "31",
+            "missing_pct": 100.0
+        },
+        "news_sentiment": {
+            "mean": null,
+            "std": null,
+            "missing": "31",
+            "missing_pct": 100.0
+        }
+    },
+    "consistency": {
+        "missing_dates": 0,
+        "date_gaps": [],
+        "value_ranges": {
+            "market_change": {
+                "min": -2.0455637743263986,
+                "max": 2.2698950993167744,
+                "within_range": true
+            }
+        }
+    }
+}

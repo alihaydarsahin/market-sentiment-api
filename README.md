@@ -17,6 +17,28 @@ A machine learning API that analyzes market sentiment from multiple data sources
 - Statistical market analysis
 - Automated data quality checks
 
+### News Analysis Features
+- Advanced text processing with NLTK
+- Entity extraction and named entity recognition
+- Tech company impact analysis
+- Comprehensive visualizations:
+  - Sentiment distribution analysis
+  - Interactive word clouds
+  - Category distribution charts
+  - Tech company mention analysis
+- Enhanced ML-focused categorization:
+  - AI/ML developments
+  - Blockchain and Web3
+  - Cloud technologies
+  - Cybersecurity
+  - E-commerce trends
+  - Fintech innovations
+- Detailed JSON reporting with:
+  - Sentiment metrics
+  - Trend analysis
+  - Topic clustering
+  - Impact assessment
+
 ### Machine Learning
 - RandomForest and GradientBoosting models
 - Feature engineering with technical indicators

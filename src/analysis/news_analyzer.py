@@ -149,25 +149,42 @@ class NewsAnalyzer:
             return None
     
     def analyze_tech_impact(self, df):
-        """Analyze impact on tech companies"""
-        tech_mentions = {company: 0 for company in self.tech_companies}
-        tech_sentiment = {company: [] for company in self.tech_companies}
+        """Analyze impact on tech companies with context-aware sentiment analysis"""
+        tech_mentions = {company: [] for company in self.tech_companies}
         
         for _, row in df.iterrows():
-            text = f"{row['title']} {row['description']}".lower()
+            text = f"{row['title']} {row['description']}"
+            sentences = nltk.sent_tokenize(text)
+            
             for company in self.tech_companies:
-                if company.lower() in text:
-                    tech_mentions[company] += 1
-                    if row['sentiment']:
-                        tech_sentiment[company].append(row['sentiment']['polarity'])
+                # Find related sentences for each company
+                relevant_sentences = [
+                    sent for sent in sentences 
+                    if company.lower() in sent.lower()
+                ]
+                
+                if relevant_sentences:
+                    # Only analyze the sentences that mention the company
+                    sentiment = TextBlob(' '.join(relevant_sentences)).sentiment.polarity
+                    context = {
+                        'text': ' '.join(relevant_sentences),
+                        'sentiment': sentiment,
+                        'date': row['publishedAt']
+                    }
+                    tech_mentions[company].append(context)
         
-        # Calculate average sentiment
-        tech_avg_sentiment = {}
-        for company in self.tech_companies:
-            if tech_sentiment[company]:
-                tech_avg_sentiment[company] = np.mean(tech_sentiment[company])
+        # Prepare analysis results
+        analysis_results = {}
+        for company, mentions in tech_mentions.items():
+            if mentions:
+                analysis_results[company] = {
+                    'mention_count': len(mentions),
+                    'avg_sentiment': np.mean([m['sentiment'] for m in mentions]),
+                    'sentiment_trend': [m['sentiment'] for m in mentions],
+                    'recent_mentions': sorted(mentions, key=lambda x: x['date'], reverse=True)[:5]
+                }
         
-        return tech_mentions, tech_avg_sentiment
+        return analysis_results
     
     def create_visualizations(self, df):
         """Create comprehensive visualizations"""
@@ -200,12 +217,12 @@ class NewsAnalyzer:
         plt.close()
         
         # 4. Tech Company Analysis
-        tech_mentions, tech_sentiment = self.analyze_tech_impact(df)
+        analysis_results = self.analyze_tech_impact(df)
         
         plt.figure(figsize=self.figure_size)
-        companies = list(tech_mentions.keys())
-        mentions = list(tech_mentions.values())
-        sentiments = [tech_sentiment.get(company, 0) for company in companies]
+        companies = list(analysis_results.keys())
+        mentions = [analysis_results[company]['mention_count'] for company in companies]
+        sentiments = [analysis_results[company]['avg_sentiment'] for company in companies]
         
         x = range(len(companies))
         plt.bar(x, mentions)
@@ -217,6 +234,9 @@ class NewsAnalyzer:
     
     def generate_report(self, df):
         """Generate comprehensive analysis report"""
+        # Get tech analysis results
+        analysis_results = self.analyze_tech_impact(df)
+        
         report = {
             'timestamp': datetime.now().isoformat(),
             'analysis_period': {
@@ -232,10 +252,7 @@ class NewsAnalyzer:
                     'negative': len([s for s in df['sentiment'] if s and not s['is_positive']])
                 }
             },
-            'tech_analysis': {
-                'mentions': self.analyze_tech_impact(df)[0],
-                'sentiment': self.analyze_tech_impact(df)[1]
-            },
+            'tech_analysis': analysis_results,
             'trending_topics': self.get_trending_topics(df)
         }
         

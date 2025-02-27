@@ -18,11 +18,14 @@ def load_latest_data():
     
     for source, dir_path in data_dirs.items():
         try:
-            files = sorted([f for f in os.listdir(dir_path) if f.endswith('.csv')])
+            # Dosyaları oluşturma tarihine göre sırala
+            files = [f for f in os.listdir(dir_path) if f.endswith('.csv')]
+            files.sort(key=lambda x: os.path.getmtime(os.path.join(dir_path, x)))
+            
             if files:
                 latest_file = files[-1]
                 data[source] = pd.read_csv(f"{dir_path}/{latest_file}")
-                print(f"Loaded: {source} - {latest_file}")
+                print(f"Loaded: {source} - {latest_file} (Modified: {datetime.fromtimestamp(os.path.getmtime(os.path.join(dir_path, latest_file)))})")
         except Exception as e:
             print(f"Error: Failed to load {source} data - {e}")
     
@@ -235,7 +238,7 @@ def create_advanced_time_series(data):
     fig = plt.figure(figsize=(20, 15))
     
     # 1. Activity Patterns
-    ax1 = plt.subplot(3, 2, 1)
+    ax1 = plt.subplot(1, 2, 1)
     data['reddit']['hour'] = pd.to_datetime(data['reddit']['created_utc']).dt.hour
     data['reddit']['day'] = pd.to_datetime(data['reddit']['created_utc']).dt.day_name()
     activity_matrix = data['reddit'].pivot_table(
@@ -248,7 +251,7 @@ def create_advanced_time_series(data):
     plt.title('Activity Heatmap by Day and Hour')
     
     # 2. Engagement Metrics Over Time
-    ax2 = plt.subplot(3, 2, 2)
+    ax2 = plt.subplot(1, 2, 2)
     daily_metrics = data['reddit'].groupby('date').agg({
         'score': 'mean',
         'comments': 'mean',

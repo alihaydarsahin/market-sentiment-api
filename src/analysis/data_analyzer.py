@@ -7,6 +7,8 @@ from textblob import TextBlob
 import os
 import json
 import logging
+import glob
+import shutil
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -134,20 +136,115 @@ class DataAnalyzer:
         return analysis
     
     def generate_report(self):
-        """Generate comprehensive analysis report"""
+        """Generate comprehensive analysis report with enhanced features"""
         analysis = self.analyze_trends()
         
-        # Create visualizations
-        self.plot_sentiment_trends(analysis['sentiment'])
-        self.plot_correlation_matrix(analysis['correlations'])
-        self.plot_top_topics(analysis['top_topics'])
-        
-        # Save report
+        # Create report directory with timestamp
         timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-        report_path = f"data/analysis/trend_report_{timestamp}.json"
+        report_dir = f"data/analysis/report_{timestamp}"
+        os.makedirs(report_dir, exist_ok=True)
+        os.makedirs(f"{report_dir}/figures", exist_ok=True)
         
-        with open(report_path, 'w') as f:
-            json.dump(analysis, f, indent=4)
+        try:
+            # Create visualizations with error handling
+            visualization_tasks = {
+                'sentiment': lambda: self.plot_sentiment_trends(analysis['sentiment']),
+                'correlations': lambda: self.plot_correlation_matrix(analysis['correlations']),
+                'topics': lambda: self.plot_top_topics(analysis['top_topics'])
+            }
+            
+            failed_plots = []
+            for name, task in visualization_tasks.items():
+                try:
+                    task()
+                    # Move plots to report directory
+                    old_path = f"data/analysis/figures/{name}_*.png"
+                    for file in glob.glob(old_path):
+                        shutil.move(file, f"{report_dir}/figures/")
+                except Exception as e:
+                    logger.error(f"Error generating {name} plot: {e}")
+                    failed_plots.append(name)
+            
+            # Add metadata to analysis
+            analysis['metadata'] = {
+                'generated_at': timestamp,
+                'failed_plots': failed_plots,
+                'data_sources': list(analysis.keys()),
+                'total_records_analyzed': self._get_total_records(analysis)
+            }
+            
+            # Save report as JSON
+            report_path = f"{report_dir}/analysis_report.json"
+            with open(report_path, 'w') as f:
+                json.dump(analysis, f, indent=4)
+                
+            # Generate HTML summary
+            self._generate_html_summary(analysis, report_dir)
+            
+            logger.info(f"Report generated successfully at {report_dir}")
+            return report_dir
+            
+        except Exception as e:
+            logger.error(f"Failed to generate report: {e}")
+            raise
+    
+    def _get_total_records(self, analysis):
+        """Helper method to count total records analyzed"""
+        total = 0
+        if 'sentiment' in analysis:
+            if 'reddit' in analysis['sentiment']:
+                total += len(analysis['sentiment']['reddit'].get('sentiment_trend', {}))
+            if 'news' in analysis['sentiment']:
+                total += len(analysis['sentiment']['news'].get('sentiment_by_source', {}))
+        return total
+    
+    def _generate_html_summary(self, analysis, report_dir):
+        """Generate HTML summary of the analysis"""
+        template = """
+        <html>
+            <head>
+                <title>Analysis Report {timestamp}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    .summary { margin-bottom: 20px; }
+                    .visualization { margin: 20px 0; }
+                </style>
+            </head>
+            <body>
+                <h1>Analysis Report {timestamp}</h1>
+                <div class="summary">
+                    <h2>Summary</h2>
+                    <p>Total records analyzed: {total_records}</p>
+                    <p>Data sources: {sources}</p>
+                    {failed_plots_info}
+                </div>
+                <div class="visualizations">
+                    <h2>Visualizations</h2>
+                    {visualization_html}
+                </div>
+            </body>
+        </html>
+        """
+        
+        # Generate visualization HTML
+        viz_html = ""
+        for fig_file in glob.glob(f"{report_dir}/figures/*.png"):
+            viz_html += f'<div class="visualization"><img src="figures/{os.path.basename(fig_file)}" /></div>'
+        
+        failed_plots_info = ""
+        if analysis['metadata']['failed_plots']:
+            failed_plots_info = "<p>Failed plots: " + ", ".join(analysis['metadata']['failed_plots']) + "</p>"
+        
+        html_content = template.format(
+            timestamp=analysis['metadata']['generated_at'],
+            total_records=analysis['metadata']['total_records_analyzed'],
+            sources=", ".join(analysis['metadata']['data_sources']),
+            failed_plots_info=failed_plots_info,
+            visualization_html=viz_html
+        )
+        
+        with open(f"{report_dir}/report_summary.html", 'w') as f:
+            f.write(html_content)
 
     def plot_sentiment_trends(self, sentiment_data):
         """Plot sentiment trends"""

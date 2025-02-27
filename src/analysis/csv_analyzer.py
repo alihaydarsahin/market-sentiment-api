@@ -7,6 +7,7 @@ import glob
 import numpy as np
 from scipy import stats  # Added for probplot
 import warnings
+import json
 warnings.filterwarnings('ignore')  # Suppress warnings
 
 class CSVAnalyzer:
@@ -93,27 +94,27 @@ class CSVAnalyzer:
         try:
             # Data overview
             stats_df = pd.DataFrame({
-                'dtype': df.dtypes,
-                'non_null': df.count(),
-                'null_count': df.isnull().sum(),
-                'unique_values': df.nunique(),
-                'memory_usage': df.memory_usage(deep=True)
+                'Data Type': df.dtypes,
+                'Non-Null Count': df.count(),
+                'Null Count': df.isnull().sum(),
+                'Unique Values': df.nunique(),
+                'Memory Usage (bytes)': df.memory_usage(deep=True)
             })
             
-            # Save stats as CSV
-            stats_file = f"{output_dir}/basic_stats.csv"
+            # Save stats as markdown
+            stats_file = f"{output_dir}/data_summary.md"
             mode = 'a' if os.path.exists(stats_file) else 'w'
             with open(stats_file, mode) as f:
                 if mode == 'w':
-                    stats_df.to_csv(f)
-                else:
-                    f.write(f"\n\n=== {filename} ===\n")
-                    stats_df.to_csv(f)
+                    f.write("# Dataset Statistics\n\n")
+                f.write(f"\n## {filename} Summary\n\n")
+                f.write(stats_df.to_markdown())
+                f.write("\n\n---\n")
             
             # Create visual summary
             plt.figure(figsize=(12, 6))
-            stats_df['null_percentage'] = (stats_df['null_count'] / len(df)) * 100
-            sns.barplot(x=stats_df.index, y=stats_df['null_percentage'])
+            stats_df['Null Percentage'] = (stats_df['Null Count'] / len(df)) * 100
+            sns.barplot(x=stats_df.index, y=stats_df['Null Percentage'])
             plt.title(f'Null Values Percentage - {filename}')
             plt.xticks(rotation=45, ha='right')
             plt.ylabel('Null Percentage (%)')
@@ -130,12 +131,21 @@ class CSVAnalyzer:
         
         for col in numerical_cols:
             try:
+                # Basic statistics
+                stats_dict = {
+                    'mean': df[col].mean(),
+                    'median': df[col].median(),
+                    'std': df[col].std(),
+                    'skewness': df[col].skew(),
+                    'kurtosis': df[col].kurtosis()
+                }
+                
                 plt.figure(figsize=(15, 5))
                 
                 # Distribution plot
                 plt.subplot(1, 3, 1)
                 sns.histplot(df[col].dropna(), kde=True)
-                plt.title(f'{filename} - {col} Distribution')
+                plt.title(f'{filename} - {col}\nMean: {stats_dict["mean"]:.2f}, Median: {stats_dict["median"]:.2f}')
                 plt.xticks(rotation=45)
                 
                 # Box plot
@@ -152,9 +162,9 @@ class CSVAnalyzer:
                 plt.savefig(f"{output_dir}/{col}_analysis.png")
                 plt.close()
                 
-                # Save statistics
-                desc = df[col].describe()
-                desc.to_csv(f"{output_dir}/{col}_statistics.csv")
+                # Statistics to JSON file
+                with open(f"{output_dir}/{col}_advanced_stats.json", 'w') as f:
+                    json.dump(stats_dict, f, indent=4)
                 
             except Exception as e:
                 print(f"Error analyzing {filename} - {col}: {e}")

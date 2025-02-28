@@ -1,6 +1,10 @@
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Add project root to Python path
 project_root = str(Path(__file__).parent.parent.parent)
@@ -20,8 +24,14 @@ def init_db():
         # Create admin user if doesn't exist
         admin = User.query.filter_by(username='admin').first()
         if not admin:
+            # Get admin password from environment variable
+            admin_password = os.getenv('ADMIN_PASSWORD')
+            if not admin_password:
+                print("Error: ADMIN_PASSWORD environment variable not set!")
+                sys.exit(1)
+                
             admin = User(username='admin', is_admin=True)
-            admin.set_password('admin123')  # Change in production!
+            admin.set_password(admin_password)
             db.session.add(admin)
             db.session.commit()
             print("Admin user created successfully!")

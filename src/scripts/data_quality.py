@@ -225,6 +225,64 @@ class DataQualityChecker:
             logger.error(f"Error checking data consistency: {e}")
             return None
     
+    def get_latest_data(self):
+        """
+        Get the latest combined data file with improved error handling and date-based sorting.
+        
+        Returns:
+            pd.DataFrame | None: The latest data as a DataFrame, or None if no data or error occurs
+        """
+        try:
+            # Check if directory exists
+            if not os.path.exists(self.data_dir):
+                logger.error(f"Data directory {self.data_dir} does not exist")
+                return None
+            
+            # Get all combined data files
+            combined_files = [f for f in os.listdir(self.data_dir) if f.startswith('combined_data_')]
+            
+            if not combined_files:
+                logger.warning("No combined data files found in directory")
+                return None
+            
+            # Sort by date in filename (assuming format: combined_data_YYYYMMDD.csv)
+            try:
+                latest_file = max(combined_files, key=lambda f: f.split('_')[-1].replace('.csv', ''))
+            except Exception as e:
+                logger.error(f"Error finding latest file: {e}")
+                return None
+            
+            file_path = os.path.join(self.data_dir, latest_file)
+            
+            # Verify file exists and is readable
+            if not os.path.isfile(file_path):
+                logger.error(f"File {file_path} does not exist")
+                return None
+            
+            # Read the CSV file with proper error handling
+            try:
+                data = pd.read_csv(file_path)
+                if data.empty:
+                    logger.warning(f"File {latest_file} is empty")
+                    return None
+                
+                logger.info(f"Successfully loaded data from {latest_file}")
+                return data
+                
+            except pd.errors.EmptyDataError:
+                logger.error(f"File {latest_file} is empty")
+                return None
+            except pd.errors.ParserError:
+                logger.error(f"Error parsing CSV file {latest_file}")
+                return None
+            except Exception as e:
+                logger.error(f"Unexpected error reading {latest_file}: {e}")
+                return None
+            
+        except Exception as e:
+            logger.error(f"Unexpected error in get_latest_data: {e}")
+            return None
+    
     def generate_quality_report(self):
         """Generate comprehensive data quality report"""
         try:

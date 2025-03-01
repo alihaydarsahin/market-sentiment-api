@@ -44,6 +44,11 @@ A machine learning API that analyzes market sentiment from multiple data sources
 - Feature engineering with technical indicators
 - Model performance monitoring
 - Real-time prediction capabilities
+- Comprehensive model evaluation:
+  - Multiple performance metrics (MSE, RMSE, MAE, R²)
+  - Feature importance analysis
+  - Interactive model comparison
+  - Historical performance tracking
 
 ### API Features
 - Secure JWT authentication
@@ -314,3 +319,45 @@ def get_latest_data(self):
 ✅ Comprehensive error management
 ✅ Detailed logging for debugging
 ✅ Safe file operations
+
+## Model Performance Analysis
+
+### Accessing Model Performance
+```bash
+# Run the result viewer
+python src/utils/result_viewer.py
+
+# Select option 3 for Model Performance
+# Follow the interactive prompts to:
+# 1. View available models
+# 2. Select a model to evaluate
+# 3. View comprehensive metrics
+# 4. Analyze feature importance
+```
+
+### Understanding Metrics
+- **MSE (Mean Squared Error)**: Measures average squared difference between predictions and actual values
+- **RMSE (Root Mean Squared Error)**: Square root of MSE, provides error metric in same unit as target variable
+- **MAE (Mean Absolute Error)**: Average absolute difference between predictions and actual values
+- **R² Score**: Indicates how well the model explains the variance in the data (0 to 1)
+
+## Using the Model Viewer
+
+### Accessing Model Performance
+```bash
+# Run the result viewer
+python src/utils/result_viewer.py
+
+# Select option 3 for Model Performance
+# Follow the interactive prompts to:
+# 1. View available models
+# 2. Select a model to evaluate
+# 3. View comprehensive metrics
+# 4. Analyze feature importance
+```
+
+### Understanding Metrics
+- **MSE (Mean Squared Error)**: Measures average squared difference between predictions and actual values
+- **RMSE (Root Mean Squared Error)**: Square root of MSE, provides error metric in same unit as target variable
+- **MAE (Mean Absolute Error)**: Average absolute difference between predictions and actual values
+- **R² Score**: Indicates how well the model explains the variance in the data (0 to 1)

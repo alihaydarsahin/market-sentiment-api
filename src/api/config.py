@@ -10,6 +10,7 @@ class Config:
     # JWT settings
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'jwt-secret-key')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    REFRESH_TOKEN_EXPIRES = timedelta(days=30)  # Refresh tokens last 30 days
     
     # Rate limiting
     RATELIMIT_DEFAULT = os.getenv('RATE_LIMIT', '100/hour')

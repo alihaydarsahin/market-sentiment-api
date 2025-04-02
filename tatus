@@ -1,0 +1,18 @@
+[33mcommit d21690b16549c3e4ae8828ad5150f33e14c3e01b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: alihaydarsahin <alihaydarsahin@users.noreply.github.com>
+Date:   Sat Mar 1 12:57:48 2025 +0300
+
+    Update: Improved data quality checks and documentation
+
+ .cursor/rules/youcan.mdc                  |  9 [32m+++[m
+ .github/ISSUE_TEMPLATE/bug_report.md      | 32 [32m++++++++++[m
+ .github/ISSUE_TEMPLATE/feature_request.md | 42 [32m+++++++++++++[m
+ .github/pull_request_template.md          | 39 [32m++++++++++++[m
+ .github/workflows/python-app.yml          | 45 [32m++++++++++++++[m
+ .gitignore                                | 85 [32m+++++++++++++++++++++++[m[31m----[m
+ CHANGELOG.md                              | 36 [32m++++++++++++[m
+ CODE_OF_CONDUCT.md                        | 33 [32m+++++++++++[m
+ CONTRIBUTING.md                           | 42 [32m+++++++++++++[m
+ README.md                                 | 98 [32m++++++++++++++++++++++++++++++[m[31m-[m
+ src/scripts/data_quality.py               | 58 [32m++++++++++++++++++[m
+ 11 files changed, 508 insertions(+), 11 deletions(-)

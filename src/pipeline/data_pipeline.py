@@ -6,10 +6,10 @@ import logging
 from textblob import TextBlob
 
 # Use absolute imports instead of relative imports
-from src.data_collection.reddit_collector import RedditDataCollector
-from src.data_collection.news_collector import NewsCollector
-from src.data_collection.market_collector import MarketDataCollector
-from src.data_collection.ecommerce_scraper import TrendyolScraper
+from src.data_collection.collectors import RedditDataCollector
+from src.data_collection.collectors import NewsCollector
+from src.data_collection.collectors import MarketDataCollector
+from src.data_collection.scrapers import TrendyolScraper
 from src.visualization.trend_visualizer import TrendVisualizer
 from src.models.advanced_predictor import AdvancedPredictor
 

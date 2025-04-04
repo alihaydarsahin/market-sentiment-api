@@ -115,61 +115,121 @@ project/
 └── tests/                # Test suite
 ```
 
-## Installation
+## Environment Setup
 
 ### Prerequisites
 - Python 3.11+
 - Docker and Docker Compose
 - PostgreSQL
 - Git
+- PowerShell (for Windows users)
 
-### Setup
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd market-sentiment-api
-```
+### Virtual Environment Setup
 
-2. Create and activate virtual environment:
+#### Windows
 ```bash
+# Create virtual environment
 python -m venv venv
-# Windows
-venv\Scripts\activate
-# Linux/Mac
-source venv/bin/activate
-```
 
-3. Install dependencies:
-```bash
+# Activate virtual environment
+venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
+#### Linux/Mac
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Configuration
+1. Copy environment template:
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
 ```
 
-5. Initialize database:
+2. Configure environment variables in `.env`:
+- `DATABASE_URL`: PostgreSQL connection string
+- `JWT_SECRET_KEY`: Secret key for JWT tokens
+- `API_KEY`: API key for external services
+- `LOG_LEVEL`: Logging level (DEBUG, INFO, WARNING, ERROR)
+
+## Deployment
+
+### Using Docker (Recommended)
 ```bash
-python src/scripts/create_db.py
+# Windows
+.\deploy.bat
+
+# Linux/Mac
+./deploy.sh
 ```
 
-## Running the Application
+The deployment script will:
+1. Stop any running containers
+2. Build and start new containers
+3. Initialize the database
+4. Run migrations
+5. Train models
+6. Start the API server
 
-### Using Docker
+### Manual Deployment
+1. Start PostgreSQL database
+2. Run database migrations:
 ```bash
-# Build and start containers
-docker-compose up --build -d
-
-# Initialize database
-docker-compose exec api python src/scripts/create_db.py
+flask db upgrade
 ```
 
-### Manual Run
+3. Initialize database:
 ```bash
-# Start the API server
+python src/scripts/init_db.py
+```
+
+4. Train models:
+```bash
+python src/scripts/train_models.py
+```
+
+5. Start API server:
+```bash
 python src/api/app.py
+```
+
+## Testing
+
+### API Testing
+```bash
+# Windows
+.\test_api.ps1
+
+# Linux/Mac
+curl -X GET http://localhost:5000/api/health
+```
+
+The test script will:
+1. Check API health
+2. Test authentication
+3. Test prediction endpoint
+4. Display results with color-coded output
+
+### Development Testing
+```bash
+# Run all tests
+python -m pytest
+
+# Run specific test file
+python -m pytest tests/test_api.py
+
+# Run with coverage
+python -m pytest --cov=src tests/
 ```
 
 ## API Documentation
@@ -223,27 +283,6 @@ python -m pytest tests/test_api.py
 - Type hints used
 - Comprehensive docstrings
 - Unit tests for core functionality
-
-## Deployment
-The application can be deployed using Docker Compose or traditional deployment methods.
-
-### Docker Deployment
-1. Configure environment variables in `.env`
-2. Run deployment script:
-```bash
-# Windows
-.\deploy.bat
-
-# Linux/Mac
-./deploy.sh
-```
-
-### Manual Deployment
-1. Set up PostgreSQL database
-2. Configure environment variables
-3. Install dependencies
-4. Run database migrations
-5. Start the application server
 
 ## Monitoring
 - Prometheus metrics at `/metrics`
